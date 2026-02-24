@@ -6,14 +6,14 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ItemRepository {
-    public Item save(Item item);
+    Item save(Item item);
 
-    public Item update(Item item);
+    Item update(Item item);
 
-    public Optional<Item> findById(Long id);
+    Optional<Item> findById(Long id);
 
-    public List<Item> findAllByOwnerId(Long ownerId);
+    List<Item> findAllByOwnerId(Long ownerId);
 
-    public List<Item> search(String text);
+    List<Item> search(String text);
 
 }

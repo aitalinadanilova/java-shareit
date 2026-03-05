@@ -119,7 +119,8 @@ public class ItemServiceImpl implements ItemService {
         }
 
         User author = userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException("Пользователь не найден"));
+                .orElseThrow(() -> new ValidationException("Пользователь не найден для комментария"));
+
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new NotFoundException("Вещь не найдена"));
 

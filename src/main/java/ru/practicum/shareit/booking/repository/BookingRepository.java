@@ -31,7 +31,8 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     List<Booking> findAllByItemOwnerId(Long ownerId, Sort sort);
 
     // CURRENT
-    List<Booking> findAllByItemOwnerIdAndStartBeforeAndEndAfter(Long ownerId, LocalDateTime start, LocalDateTime end, Sort sort);
+    List<Booking> findAllByItemOwnerIdAndStartBeforeAndEndAfter(
+            Long ownerId, LocalDateTime start, LocalDateTime end, Sort sort);
 
     // PAST
     List<Booking> findAllByItemOwnerIdAndEndBefore(Long ownerId, LocalDateTime end, Sort sort);
@@ -42,11 +43,15 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     // WAITING / REJECTED
     List<Booking> findAllByItemOwnerIdAndStatus(Long ownerId, BookingStatus status, Sort sort);
 
-    Optional<Booking> findFirstByItemIdAndStatusAndStartBeforeOrderByEndDesc(Long itemId, BookingStatus status, LocalDateTime now);
+    Optional<Booking> findFirstByItemIdAndStatusAndStartBeforeOrderByEndDesc(
+            Long itemId, BookingStatus status, LocalDateTime now);
 
-    Optional<Booking> findFirstByItemIdAndStatusAndStartAfterOrderByStartAsc(Long itemId, BookingStatus status, LocalDateTime now);
+    Optional<Booking> findFirstByItemIdAndStatusAndStartAfterOrderByStartAsc(
+            Long itemId, BookingStatus status, LocalDateTime now);
 
-    boolean existsByBookerIdAndItemIdAndStatusAndEndBefore(Long bookerId, Long itemId, BookingStatus status, LocalDateTime now);
+    boolean existsByBookerIdAndItemIdAndStatusAndEndBefore(
+            Long bookerId, Long itemId, BookingStatus status, LocalDateTime now
+    );
 
     List<Booking> findAllByItemIdInAndStatus(List<Long> itemIds, BookingStatus status, Sort sort);
 

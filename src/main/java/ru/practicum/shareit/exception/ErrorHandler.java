@@ -45,11 +45,5 @@ public class ErrorHandler {
         return new ErrorResponse("Internal server error", e.getMessage());
     }
 
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleIllegalArgumentException(final IllegalArgumentException e) {
-        log.error("Недопустимый аргумент: {}", e.getMessage());
-        return new ErrorResponse("Unknown state: UNSUPPORTED_STATUS", e.getMessage());
-    }
 
 }

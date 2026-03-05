@@ -7,7 +7,6 @@ import lombok.*;
 @Table(name = "users")
 @Getter
 @Setter
-@ToString
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,7 +30,7 @@ public class User {
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        return id != null ? id.hashCode() : 0;
     }
 
 }

@@ -43,15 +43,18 @@ public class BookingController {
     @GetMapping
     public List<BookingOutDto> getAllByBooker(@RequestHeader(USER_ID_HEADER) Long userId,
                                               @RequestParam(defaultValue = "ALL") String state) {
-        log.info("Запрос бронирований со статусом {} пользователем {}", state, userId);
-        return bookingService.getAllByBooker(userId, state);
+        log.info("Запрос бронирований пользователя {} со статусом {}", userId, state);
+        BookingState bookingState = BookingState.from(state)
+                .orElseThrow(() -> new IllegalArgumentException("Unknown state: " + state));
+        return bookingService.getAllByBooker(userId, bookingState);
     }
 
     @GetMapping("/owner")
     public List<BookingOutDto> getAllByOwner(@RequestHeader(USER_ID_HEADER) Long userId,
                                              @RequestParam(defaultValue = "ALL") String state) {
         log.info("Запрос бронирований вещей владельца {} со статусом {}", userId, state);
-        return bookingService.getAllByOwner(userId, state);
+        BookingState bookingState = BookingState.from(state)
+                .orElseThrow(() -> new IllegalArgumentException("Unknown state: " + state));
+        return bookingService.getAllByOwner(userId, bookingState);
     }
-
 }

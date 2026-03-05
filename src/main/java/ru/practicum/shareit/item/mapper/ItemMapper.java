@@ -3,9 +3,11 @@ package ru.practicum.shareit.item.mapper;
 import lombok.experimental.UtilityClass;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemFullDto;
+import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
-
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @UtilityClass
 public class ItemMapper {
@@ -20,13 +22,15 @@ public class ItemMapper {
                 .build();
     }
 
-    public static ItemFullDto toItemFullDto(Item item) {
+    public static ItemFullDto toItemFullDto(Item item, List<Comment> comments) {
         return ItemFullDto.builder()
                 .id(item.getId())
                 .name(item.getName())
                 .description(item.getDescription())
                 .available(item.getAvailable())
-                .comments(new ArrayList<>())
+                .comments(comments != null ? comments.stream()
+                        .map(CommentMapper::toCommentDto)
+                        .collect(Collectors.toList()) : Collections.emptyList())
                 .build();
     }
 

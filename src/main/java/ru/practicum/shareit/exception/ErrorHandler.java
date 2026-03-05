@@ -27,8 +27,8 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleValidationException(final ValidationException e) {
-        log.error("Ошибка валидации: {}", e.getMessage());
-        return new ErrorResponse("Validation error", e.getMessage());
+        log.error("Ошибка валидации (400): {}", e.getMessage());
+        return new ErrorResponse("Unknown state: UNSUPPORTED_STATUS", e.getMessage());
     }
 
     @ExceptionHandler
@@ -43,6 +43,13 @@ public class ErrorHandler {
     public ErrorResponse handleThrowable(final Throwable e) {
         log.error("Непредвиденная ошибка: ", e);
         return new ErrorResponse("Internal server error", e.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleIllegalArgumentException(final IllegalArgumentException e) {
+        log.error("Недопустимый аргумент: {}", e.getMessage());
+        return new ErrorResponse("Unknown state: UNSUPPORTED_STATUS", e.getMessage());
     }
 
 }

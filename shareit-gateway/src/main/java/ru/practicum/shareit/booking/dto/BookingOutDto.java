@@ -22,7 +22,7 @@ public class BookingOutDto {
     private LocalDateTime start;
 
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime end;;
+    private LocalDateTime end;
 
     private ItemDto item;
 

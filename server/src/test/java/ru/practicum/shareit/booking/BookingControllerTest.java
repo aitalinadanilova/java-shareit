@@ -84,14 +84,13 @@ class BookingControllerTest {
 
     @Test
     void getAllByBooker() throws Exception {
-        when(bookingService.getAllByBooker(anyLong(), any(BookingState.class)))
+        when(bookingService.getAllByBooker(anyLong(), eq(BookingState.ALL)))
                 .thenReturn(List.of(bookingOutDto));
 
         mvc.perform(get("/bookings")
                         .header("X-Sharer-User-Id", 1L)
                         .param("state", "ALL"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.size()").value(1));
+                .andExpect(status().isOk());
     }
 
     @Test

@@ -14,6 +14,7 @@ import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemFullDto;
 import ru.practicum.shareit.item.mapper.CommentMapper;
 import ru.practicum.shareit.item.mapper.ItemMapper;
+import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.repository.CommentRepository;
 import ru.practicum.shareit.item.repository.ItemRepository;
@@ -98,7 +99,23 @@ public class ItemServiceImpl implements ItemService {
     @Override
     @Transactional
     public CommentDto createComment(Long userId, Long itemId, CommentDto commentDto) {
-        return null;
+        User author = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("Пользователь не найден: " + userId));
+
+        Item item = itemRepository.findById(itemId)
+                .orElseThrow(() -> new NotFoundException("Вещь не найдена: " + itemId));
+
+        boolean canComment = bookingRepository.existsByBookerIdAndItemIdAndStatusAndEndBefore(
+                userId, itemId, BookingStatus.APPROVED, LocalDateTime.now());
+
+        if (!canComment) {
+            throw new org.springframework.web.server.ResponseStatusException(
+                    org.springframework.http.HttpStatus.BAD_REQUEST,
+                    "Вы не можете оставить отзыв к вещи, которую не бронировали или срок аренды еще не истек");
+        }
+
+        Comment comment = CommentMapper.toComment(commentDto, item, author);
+        return CommentMapper.toCommentDto(commentRepository.save(comment));
     }
 
     private ItemFullDto assembleItemFullDto(Item item, Long userId) {

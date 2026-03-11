@@ -68,7 +68,6 @@ public class ItemRequestServiceImpl implements ItemRequestService {
         ItemRequest request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new NotFoundException("Request not found: " + requestId));
 
-        // ИСПРАВЛЕНО: для одного ID используем метод без In
         List<Item> items = itemRepository.findAllByRequest_Id(requestId);
 
         return ItemRequestMapper.toItemRequestDto(request, items);
